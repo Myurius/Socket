@@ -39,7 +39,9 @@ class Socket {
     }
 
     Close() {
-        if (DllCall("ws2_32\shutdown", "ptr", this._sock) = -1) || (DllCall("ws2_32\closesocket", "ptr", this._sock, "int", 2) = -1)
+        if DllCall("ws2_32\shutdown", "ptr", this._sock) = -1
+            throw OSError(DllCall("ws2_32\WSAGetLastError"))
+        if DllCall("ws2_32\closesocket", "ptr", this._sock, "int", 2) = -1
             throw OSError(DllCall("ws2_32\WSAGetLastError"))
     }
 
