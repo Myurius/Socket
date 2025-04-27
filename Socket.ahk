@@ -2,7 +2,7 @@
  * @description A simple socket class with a server, and client.
  * @author @Myurius
  * @date 2025/04/27
- * @version 0.0.3
+ * @version 0.0.3.1
  **********************************************************************
  */
 
@@ -64,7 +64,7 @@ class Socket {
         __New(EventObject, Sock := -1) {
             this._sock := Sock
             this._eventobj := EventObject
-            OnExit((*) => (this.Close(), DllCall("ws2_32\WSACleanup")))
+            OnExit((*) => (DllCall("ws2_32\WSACleanup")))
         }
 
         Bind(Host, Port) {
