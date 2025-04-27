@@ -1,8 +1,8 @@
 ﻿/************************************************************************
  * @description A simple socket class with a server, and client.
  * @author @Myurius
- * @date 2025/04/26
- * @version 0.0.2
+ * @date 2025/04/27
+ * @version 0.0.3
  **********************************************************************
  */
 
@@ -39,10 +39,10 @@ class Socket {
     }
 
     Close() {
-        if ((this._connected ?? this._binded) = 0) || (this._closed = 1)
+        if (this._connected = 0) || (this._closed = 1)
             return
         
-        if this.HasProp("_connected")
+        if this is Socket.Client
             if DllCall("ws2_32\shutdown", "ptr", this._sock, "int", 2) = -1
                 throw OSError(DllCall("ws2_32\WSAGetLastError"))
         if DllCall("ws2_32\closesocket", "ptr", this._sock) = -1
@@ -60,7 +60,7 @@ class Socket {
 
     class Server extends Socket {
         _closed := 0
-        _binded := 0
+        _connected := 0
         __New(EventObject, Sock := -1) {
             this._sock := Sock
             this._eventobj := EventObject
@@ -80,7 +80,7 @@ class Socket {
 
             if DllCall("ws2_32\bind", "ptr", this._sock, "ptr", sockaddr.Ptr, "int", sockaddr.Size) = -1
                 throw OSError(DllCall("ws2_32\WSAGetLastError"))
-            this._binded := 1
+            this._connected := 1
         }
 
         Listen(Backlog := 10) {
